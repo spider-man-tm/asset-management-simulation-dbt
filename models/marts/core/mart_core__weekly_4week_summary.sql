@@ -12,20 +12,16 @@
 
 with stg_user_metrics as (
     select
-        * except (rn, event_date)
-    from (
-        select
-            *
-            , date_trunc(event_date, week(monday)) as event_week
-            , row_number() over (partition by date_trunc(event_date, week(monday)) order by event_date desc) as rn
-        from
-            {{ ref('stg_ga__users') }}
-        {% if is_incremental() %}
-        WHERE
-            event_date >= _dbt_max_partition
-        {% endif %}
-    )
-    where rn = 1
+        * except (event_date)
+        , date_trunc(event_date, week(monday)) as event_week
+    from
+        {{ ref('stg_ga__users') }}
+    {% if is_incremental() %}
+    where
+        event_date >= _dbt_max_partition
+    qualify
+        row_number() over (partition by date_trunc(event_date, week(monday)) order by event_date desc) = 1
+    {% endif %}
 ),
 
 user_metrics as (
