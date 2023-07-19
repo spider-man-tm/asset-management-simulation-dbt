@@ -11,12 +11,6 @@ models:
       - name: page_url
         tests:
           - not_null
-  - name: stg_ga__clicks
-    description: クリックイベント
-    columns:
-      - name: link_url
-        tests:
-          - not_null
   - name: stg_ga__read_to_ends
     description: 読了時に記録されるイベント
     columns:
