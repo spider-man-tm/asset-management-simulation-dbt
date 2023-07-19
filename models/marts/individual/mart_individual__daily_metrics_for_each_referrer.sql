@@ -31,26 +31,23 @@ with joined as (
 ),
 
 /*
-PK: event_date, article_id, classify_referrer
+PK: event_date, classify_referrer
 */
 grouped as (
     select
         event_date
-        , article_id
         , {{ classify_referrer('source', 'medium') }} as referrer
-        , any_value(published_at) as published_at
         , count(1) as page_views
         , count(distinct session_key) as sessions
         , count(distinct user_pseudo_id) as unique_users
         , countif(read_to_end) as read_to_ends
     from joined
-    group by 1, 2, 3
+    group by 1, 2
 )
 
 select
     *
-    , event_date = date(published_at) as is_published_date
-    , {{ is_1st_week('event_date', 'published_at') }} as is_1st_week
-    , {{ is_1st_month('event_date', 'published_at') }} as is_1st_month
+    , {{ is_within_1week('event_date', 'current_date()') }} as is_within_1week
+    , {{ is_within_1month('event_date', 'current_date()') }} as is_within_1month
 from
     grouped
