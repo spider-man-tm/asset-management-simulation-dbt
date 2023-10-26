@@ -1,20 +1,16 @@
-{%- macro classify_referrer(source, medium) -%}
+{%- macro classify_referrer(user_source, user_medium) -%}
 
     case
-        when {{ medium }} = 'organic' then '検索エンジン'
-        when {{ source }} = 'spider-man-tm.github.io' then 'My Website'
-        when {{ source }} like '%github%' then 'GitHub'
-        when {{ source }} in ('(direct)', '') or {{ source }} is null then 'Discover・不明'
-        when {{ source }} in ('headlines.yahoo.co.jp', 'news.yahoo.co.jp') then 'Yahoo!ニュース'
-        when {{ source }} = 'smartnews.com' then 'SmartNews'
-        when {{ source }} = 'news.line.me' then 'LinE NEWS'
-        when {{ source }} = 'gunosy.com' then 'Gunosy'
-        when {{ source }} = 'news.google.com' then 'Google ニュース'
-        when {{ source }} in ('news.livedoor.com', 'news.goo.ne.jp', 'topics.smt.docomo.ne.jp', 'docomo.ne.jp', 'news.nifty.com', 'article.auone.jp', 'msn.com', 'news.infoseek.co.jp') then 'ポータルサイト'
-        when {{ source }} in ('twitter.com', 't.co') then 'Twitter'
-        when {{ source }} in ('facebook.com', 'm.facebook.com', 'newspicks.com', 'b.hatena.ne.jp', 'blog.livedoor.jp') then 'SNS'
-        when {{ source }} = 'push' then 'PUSH通知'
-        when REGEXP_CONTAinS({{ source }}, r"ampproject") then 'AMP'
+        when {{ user_medium }} = 'organic' then '検索エンジン'
+        when {{ user_source }} like '%google%' then 'google'
+        when {{ user_source }} = '(direct)' or {{ user_source }} is null then '不明'
+        when {{ user_source }} in ('twitter.com', 't.co') then 'twitter'
+        when {{ user_source }} like '%yahoo%' then 'yahoo'
+        when {{ user_source }} like '%facebook%' then 'facebook'
+        when {{ user_source }} like '%hatena%' then 'はてな'
+        when {{ user_source }} like 'linkedin.com' then 'linkedin'
+        when {{ user_source }} like 'github.com' then 'github'
+        when {{ user_source }} = 'baidu' then 'baidu'
         else 'その他'
     end
 

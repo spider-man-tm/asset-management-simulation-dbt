@@ -19,7 +19,7 @@
 
 ### Set up
 - 始めにdbt_project.ymlが正しいことを確認してください。
-- dbt-ga4パッケージを使用しているので始めにインストールしてください。
+- [dbt-ga4パッケージ](https://hub.getdbt.com/Velir/ga4/latest)を使用しているので始めにインストールしてください。
 
 ```shell
 # パッケージをインストール

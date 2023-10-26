@@ -37,11 +37,16 @@ models:
       +materialized: view
     marts:
       core:
-        +schema: marts
+        +schema: marts_core
         +materialized: table
-      individual:
-        +schema: marts_individual
+      pages:
+        +schema: marts_pages
         +materialized: table
 
 vars:
-  ga_start_date: "20230401"
+  ga4:
+    project: "asset-management-simulation"
+    dataset: "analytics_342939016"
+    start_date: "20230401" # Earliest date to load
+    static_incremental_days: 3 # Number of days to scan and reprocess on each run
+    query_parameter_exclusions: ["gclid", "fbclid", "_ga"]
